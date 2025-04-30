@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "spotifind",
+    "name": "Spotifind",
     "slug": "spotifind",
+    "owner": "thiagosantos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/common/assets/images/icon.png",
