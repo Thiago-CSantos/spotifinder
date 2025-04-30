@@ -4,8 +4,8 @@ import { Text, View } from "@/src/common/components/Themed";
 import * as AuthSession from "expo-auth-session";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StackNavigationProp } from "@react-navigation/stack"; 
 
-// Endpoints do Spotify
 const discovery = {
   authorizationEndpoint: "https://accounts.spotify.com/authorize",
   tokenEndpoint: "https://accounts.spotify.com/api/token",
@@ -22,12 +22,17 @@ const scopes = [
   "playlist-modify-public",
 ];
 
-// Cria a URL de redirecionamento
-const redirectUri = AuthSession.makeRedirectUri({useProxy: true,});
-console.log(`Redirect URI: ${redirectUri}`);
+const redirectUri = AuthSession.makeRedirectUri({
+  path: "/spotify-auth-callback",
+});
+
+type RootStackParamList = {
+  "(tabs)": undefined;
+};
+type NavigationProp = StackNavigationProp<RootStackParamList, "(tabs)">;
 
 export default function Login() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
@@ -64,11 +69,27 @@ export default function Login() {
           const tokenData = await tokenResponse.json();
 
           if (tokenData.access_token) {
+            console.log("entrou no if");
             await AsyncStorage.setItem("token", tokenData.access_token);
+
             if (tokenData.expires_in) {
+              console.log("entrou no if 2");
               const expiration = Date.now() + tokenData.expires_in * 1000;
-              await AsyncStorage.setItem("expirationDate", expiration.toString());
+
+              if (expiration < Date.now()) {
+                console.log("Token expirado");
+                await AsyncStorage.removeItem("token");
+                await AsyncStorage.removeItem("expirationDate");
+              }
+
+              await AsyncStorage.setItem(
+                "expirationDate",
+                expiration.toString()
+              );
+              navigation.navigate("(tabs)");
             }
+          } else {
+            console.error("Erro ao obter token de acesso:", tokenData);
           }
         } catch (err) {
           console.error("Erro ao trocar código por token:", err);
