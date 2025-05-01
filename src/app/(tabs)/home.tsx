@@ -28,6 +28,8 @@ interface Track {
   };
 }
 
+// ...imports e interfaces iguais
+
 export default function HomeScreen() {
   const navigation = useNavigation();
   const [recentTracks, setRecentTracks] = useState<Track[]>([]);
@@ -65,15 +67,13 @@ export default function HomeScreen() {
       <TouchableOpacity
         style={styles.card}
         onPress={() => Linking.openURL(external_urls.spotify)}
+        activeOpacity={0.8}
       >
         <Image source={{ uri: albumImage }} style={styles.albumImage} />
         <View style={styles.info}>
           <Text style={styles.trackName} numberOfLines={1}>{name}</Text>
           <Text style={styles.artistName} numberOfLines={1}>
             {artists.map((a) => a.name).join(", ")}
-          </Text>
-          <Text style={styles.albumName} numberOfLines={1}>
-            Álbum: {album.name}
           </Text>
         </View>
       </TouchableOpacity>
@@ -91,10 +91,18 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={styles.likedButton}
+        style={styles.card}
         onPress={() => navigation.navigate("liked" as never)}
+        activeOpacity={0.8}
       >
-        <Text style={styles.likedButtonText}>❤️ Ver Músicas Curtidas</Text>
+        <Image
+          source={{ uri: "https://misc.scdn.co/liked-songs/liked-songs-640.png" }}
+          style={styles.albumImage}
+        />
+        <View style={styles.info}>
+          <Text style={styles.trackName}>Músicas Curtidas</Text>
+          <Text style={styles.artistName}>Playlist</Text>
+        </View>
       </TouchableOpacity>
 
       <Text style={styles.title}>Ouvidos recentemente</Text>
@@ -102,7 +110,7 @@ export default function HomeScreen() {
         data={recentTracks}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 30 }}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -114,62 +122,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#121212",
     paddingHorizontal: 16,
-    paddingTop: 50,
-  },
-  likedButton: {
-    backgroundColor: "#1DB954",
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 16,
-    alignItems: "center",
-  },
-  likedButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
+    paddingTop: 48,
   },
   title: {
-    fontSize: 24,
-    color: "#fff",
+    fontSize: 20,
+    color: "#FFFFFF",
     fontWeight: "bold",
-    marginBottom: 20,
-    alignSelf: "center",
+    marginVertical: 16,
   },
   card: {
     flexDirection: "row",
-    backgroundColor: "#1e1e1e",
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+    backgroundColor: "#181818",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 12,
   },
   albumImage: {
     width: 64,
     height: 64,
-    borderRadius: 6,
+    borderRadius: 4,
   },
   info: {
     flex: 1,
     marginLeft: 12,
   },
   trackName: {
-    color: "#fff",
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#FFFFFF",
+    marginBottom: 2,
   },
   artistName: {
-    color: "#ccc",
     fontSize: 14,
-    marginTop: 2,
-  },
-  albumName: {
-    color: "#888",
-    fontSize: 12,
-    marginTop: 2,
+    color: "#B3B3B3",
   },
 });

@@ -69,7 +69,7 @@ export default function Login() {
           const tokenData = await tokenResponse.json();
 
           if (tokenData.access_token) {
-            console.log("entrou no if");
+            console.log("entrou no if", tokenData.access_token);
             await AsyncStorage.setItem("token", tokenData.access_token);
 
             if (tokenData.expires_in) {

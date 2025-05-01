@@ -28,8 +28,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "",
-          tabBarIcon: ({ color }) => <TabBarIcon name="spotify" color="#1DB954" />,
+          title: "Spotifinder",
+          tabBarIcon: ({ color }) => <TabBarIcon name="spotify" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -49,15 +49,15 @@ export default function TabLayout() {
       <Tabs.Screen
         name="liked"
         options={{
-          title: "Liked Songs",
+          title: "Músicas Curtidas",
           tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="two_copy"
+        name="library"
         options={{
-          title: "Tab Two LOGIN",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Sua Biblioteca",
+          tabBarIcon: ({ color }) => <TabBarIcon name="headphones" color={color} />,
         }}
       />
     </Tabs>
