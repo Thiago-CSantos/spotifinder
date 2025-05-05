@@ -17,7 +17,7 @@ export {
 } from "expo-router";
 
 export const unstable_settings = {
-  initialRouteName: "login",
+  initialRouteName: "index",
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -53,7 +53,7 @@ function RootLayoutNav() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      router.replace("/login");
+      router.replace("/auth/screens/login");
     }
   }, [isAuthenticated]);
 
